@@ -60,6 +60,78 @@
             padding: 2px 4px;
             border-radius: 4px;
         }
+
+                /* 返回按钮样式 */
+        .back-nav-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            margin-bottom: 15px;
+        }
+        
+        .back-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(-3px);
+        }
+        
+        .back-nav-btn i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-nav-btn:hover i {
+            transform: translateX(-3px);
+        }
+        
+        /* 浮动返回按钮（备用） */
+        .floating-back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            color: #6C63FF;
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.2);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(108, 99, 255, 0.1);
+            display: none; /* 默认隐藏，通过JS控制显示 */
+        }
+        
+        .floating-back-btn:hover {
+            background: white;
+            color: #FF2E63;
+            transform: translateX(-3px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-back-btn {
+                display: inline-flex;
+                align-items: center;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .back-nav-btn {
+                display: none; /* 在移动端隐藏内嵌按钮，显示浮动按钮 */
+            }
+        }
     </style>
     
     <!-- 内联数据区（以1.html数据为准） -->
@@ -168,6 +240,13 @@
     </script>
 </head>
 <body class="bg-gray-50 font-sans">
+
+        <!-- 浮动返回按钮（移动端使用） -->
+    <a href="1.html" class="floating-back-btn">
+        <i class="fas fa-arrow-left mr-2"></i>
+        返回导航
+    </a>
+
     <!-- 加载遮罩 -->
     <div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
         <div class="text-center">
@@ -179,6 +258,12 @@
     <!-- 头部 -->
     <header class="bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg">
         <div class="container mx-auto px-6 py-8">
+                        <!-- 返回按钮 -->
+            <a href="1.html" class="back-nav-btn">
+                <i class="fas fa-arrow-left"></i>
+                返回报告导航页面
+            </a>
+
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold mb-2">
@@ -1008,6 +1093,12 @@
     <!-- 页脚 -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
+                <div class="mb-4">
+                <a href="1.html" class="inline-flex items-center text-gray-300 hover:text-white transition-colors">
+                    <i class="fas fa-home mr-2"></i>
+                    返回报告导航主页
+                </a>
+    </div>
             <p class="text-gray-400">© 2025 TikTok电商店铺深度分析报告 | 数据分析周期：2025年11月19日 - 2025年11月25日</p>
             <p class="text-gray-500 text-sm mt-2">对比周期：2025年11月12日 - 2025年11月18日 | 生成时间: 2025-12-02 | 报告人：Nikilas</p>
         </div>
