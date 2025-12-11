@@ -258,6 +258,14 @@
             content: ' ↗';
         }
         
+        .metric-value.decline {
+            color: #FF2E63;
+        }
+        
+        .metric-value.decline::after {
+            content: ' ↘';
+        }
+        
         .highlight {
             background: rgba(108, 99, 255, 0.05);
             padding: 15px;
@@ -415,19 +423,19 @@
             <!-- 数据统计栏 -->
             <div class="stats-bar">
                 <div class="stat-item">
-                    <div class="stat-value">4</div>
+                    <div class="stat-value">5</div>
                     <div class="stat-label">分析周期</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">$120.6K</div>
+                    <div class="stat-value">$132.1K</div>
                     <div class="stat-label">累计GMV</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">2731</div>
+                    <div class="stat-value">3970</div>
                     <div class="stat-label">总订单量</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">198%</div>
+                    <div class="stat-value">162%</div>
                     <div class="stat-label">平均增长率</div>
                 </div>
             </div>
@@ -435,11 +443,45 @@
         
         <!-- 报告卡片容器 -->
         <div class="reports-container">
-            <!-- 最新报告卡片 - 新增 -->
-            <a href="2025年11月26日-12月2日TikTok电商店铺分析报告.html" class="report-card latest">
+            <!-- 最新报告卡片 - 2025年12月3日-12月9日 -->
+            <a href="2025年12月3日-12月9日TikTok电商店铺分析报告.html" class="report-card latest">
+                <div class="card-header">
+                    <div class="period">2025年12月3日-12月9日</div>
+                    <span class="badge latest">最新报告</span>
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label"><i class="fas fa-dollar-sign"></i> 总GMV</div>
+                        <div class="metric-value">$58,020.65</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label"><i class="fas fa-shopping-cart"></i> 订单量</div>
+                        <div class="metric-value">1235单</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label"><i class="fas fa-chart-line"></i> 环比增长</div>
+                        <div class="metric-value decline">-21.72%</div>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <div class="highlight-text">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>深度调整期，规模收缩但运营质量提升，客单价逆势增长9.33%，需重点关注退款率上升和达人结构失衡问题</span>
+                    </div>
+                </div>
+                
+                <div class="view-report">
+                    查看完整报告 <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            
+            <!-- 近期报告卡片 - 2025年11月26日-12月2日 -->
+            <a href="2025年11月26日-12月2日TikTok电商店铺分析报告.html" class="report-card">
                 <div class="card-header">
                     <div class="period">2025年11月26日-12月2日</div>
-                    <span class="badge latest">最新报告</span>
+                    <span class="badge recent">近期报告</span>
                 </div>
                 
                 <div class="metrics">
@@ -469,7 +511,7 @@
                 </div>
             </a>
             
-            <!-- 近期报告卡片 - 原最新报告调整为近期报告 -->
+            <!-- 近期报告卡片 - 2025年11月19日-11月25日 -->
             <a href="2025年11月19日-11月25日TikTok电商店铺分析报告.html" class="report-card">
                 <div class="card-header">
                     <div class="period">2025年11月19日-11月25日</div>
@@ -503,7 +545,7 @@
                 </div>
             </a>
             
-            <!-- 历史报告卡片 - 原近期报告调整为历史报告 -->
+            <!-- 历史报告卡片 - 2025年11月12日-11月18日 -->
             <a href="2025年11月12日-11月18日TikTok电商店铺分析报告.html" class="report-card">
                 <div class="card-header">
                     <div class="period">2025年11月12日-11月18日</div>
@@ -537,7 +579,7 @@
                 </div>
             </a>
             
-            <!-- 历史报告卡片 - 原历史报告保持 -->
+            <!-- 历史报告卡片 - 2025年11月5日-11月11日 -->
             <a href="2025年11月5日-11月11日TikTok电商店铺分析报告.html" class="report-card">
                 <div class="card-header">
                     <div class="period">2025年11月5日-11月11日</div>
@@ -577,7 +619,7 @@
             <div class="footer-links">
             </div>
             <p>TikTok电商店铺分析报告</p>
-            <p class="update-time">最后更新: 2025年12月09日 | 报告人：Nikilas</p>
+            <p class="update-time">最后更新: 2025年12月11日 | 报告人：Nikilas</p>
         </footer>
     </div>
     
