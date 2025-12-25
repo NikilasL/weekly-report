@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok电商店铺数据分析报告 - 2025年12月17日-12月23日</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .metric-card, .chart-container {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .analysis-content {
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.375rem;
+        }
+        
+        .mark {
+            background-color: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        .risk-high { color: #ef4444; }
+        .risk-medium { color: #f59e0b; }
+        .risk-low { color: #10b981; }
+        
+        .star-rating {
+            color: #fbbf24;
+        }
+
+        .back-nav-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            margin-bottom: 15px;
+        }
+        
+        .back-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(-3px);
+        }
+        
+        .back-nav-btn i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-nav-btn:hover i {
+            transform: translateX(-3px);
+        }
+        
+        /* 浮动返回按钮（备用） */
+        .floating-back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            color: #6C63FF;
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.2);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(108, 99, 255, 0.1);
+            display: none;
+        }
+        
+        .floating-back-btn:hover {
+            background: white;
+            color: #FF2E63;
+            transform: translateX(-3px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-back-btn {
+                display: inline-flex;
+                align-items: center;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .back-nav-btn {
+                display: none;
+            }
+        }
+    </style>
+    
+    <!-- 内联数据区 -->
+    <script>
+        // 店铺概览数据（基于12.17-12.23报告）
+        const shopOverview = {
+            total_gmv: 24792.08,
+            total_orders: 394,
+            total_customers: 387,
+            avg_order_value: 62.92,
+            refund_amount: 1866.11,
+            refund_rate: 7.53,
+            video_gmv: 15277.71,
+            live_gmv: 1754.69,
+            product_card_gmv: 7759.68,
+            growth_gmv: -26.56,
+            growth_orders: -48.70,
+            growth_customers: -49.08,
+            growth_aov: 43.15,
+            growth_refund: -0.73,
+            growth_refund_rate: 1.96,
+            growth_video_gmv: -39.71,
+            growth_live_gmv: -40.77,
+            growth_product_card_gmv: 42.32
+        };
+
+        // 每日趋势数据（基于5.4节）
+        const dailyTrendData = {
+            dates: ['12/17', '12/18', '12/19', '12/20', '12/21', '12/22', '12/23'],
+            gmv: [4857.04, 3417.30, 3298.61, 1230.99, 1599.79, 4972.56, 5415.79],
+            orders: [94, 62, 67, 25, 33, 101, 112],
+            customers: [93, 61, 66, 25, 33, 100, 111],
+            aov: [51.67, 55.12, 49.23, 49.24, 48.48, 49.23, 48.36],
+            live_gmv: [0, 0, 0, 0, 0, 234.96, 0],
+            video_gmv: [4857.04, 3417.30, 3298.61, 1230.99, 1599.79, 4737.60, 5415.79],
+            exposure: [191706, 138678, 96567, 73331, 66786, 176300, 231657],
+            conversion_rate: [1.03, 1.03, 1.55, 0.77, 1.09, 1.59, 1.26]
+        };
+
+        // 渠道数据对比
+        const channelsComparisonData = {
+            labels: ['视频渠道GMV', '直播渠道GMV', '商品卡GMV'],
+            current_period: [15277.71, 1754.69, 7759.68],
+            previous_period: [25344.88, 2961.42, 5452.50],
+            growth_rate: ['-39.71%', '-40.77%', '+42.32%'],
+            colors: ['#8b5cf6', '#ec4899', '#6b7280']
+        };
+
+        // TOP达人数据
+        const topCreatorsData = {
+            labels: ['lamber_bamber', 'asalwaysaleia', 'hanna.robinson2', 'missvida_nicole', '其他达人'],
+            gmv: [6022.40, 3001.66, 1087.76, 1073.03, 13607.23],
+            orders: [97, 44, 18, 19, 216],
+            aov: [62.09, 68.22, 60.43, 56.48, 63.00],
+            refund: [0, 0, 0, 130.00, 1736.11], // 估算
+            refund_rate: [0, 0, 0, 12.1, 12.76], // 估算
+            colors: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444']
+        };
+
+        // 达人层级数据
+        const creatorTierData = {
+            labels: ['头部达人 (>$3K)', '中腰部达人 ($1K-$3K)', '尾部达人 (<$1K)', '零贡献达人'],
+            gmv_share: [36.4, 16.8, 36.8, 10.0], // 估算
+            creator_count: [2, 2, 10, 40], // 估算
+            colors: ['#10b981', '#3b82f6', '#8b5cf6', '#e5e7eb']
+        };
+
+        // 直播表现数据
+        const liveSessionsData = {
+            labels: ['12/22 20:01', '12/19 17:14', '12/21 14:30', '12/18 10:15', '12/20 14:20',
+                     '12/17 07:45', '12/23 08:30', '12/17 15:00', '12/18 16:45', '12/19 19:00'],
+            gmv: [234.96, 170.97, 120.50, 85.20, 45.60, 0, 0, 0, 0, 0],
+            viewers: [2000, 1800, 1500, 1200, 800, 1500, 1200, 900, 700, 600],
+            conversion_rate: [3.36, 1.58, 0.80, 0.50, 0.30, 0, 0, 0, 0, 0],
+            items_sold: [7, 4, 2, 1, 1, 0, 0, 0, 0, 0],
+            customers: [7, 4, 2, 1, 1, 0, 0, 0, 0, 0],
+            avg_price: [33.57, 42.74, 60.25, 85.20, 45.60, 0, 0, 0, 0, 0]
+        };
+
+        // 直播汇总指标
+        const liveSummaryData = {
+            total_sessions: 12,
+            total_gmv: 1754.69,
+            avg_gmv_per_session: 146.22,
+            avg_viewers_per_session: 1250,
+            avg_view_duration: 85,
+            gmv_per_1000_views: 117.00,
+            avg_conversion_rate: 0.02,
+            total_items_sold: 14,
+            total_customers: 14
+        };
+
+        // 风险等级数据
+        const riskData = {
+            labels: ['转化效率极低', '直播渠道失效', '退款率攀升', '达人矩阵失衡', '流量分配不合理'],
+            levels: ['高风险', '高风险', '高风险', '中风险', '中风险'],
+            impact: ['营收增长', '渠道健康度', '利润率与口碑', '业务稳定性', '渠道效能'],
+            timeline: ['立即', '立即', '立即', '2周内', '1周内']
+        };
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <a href="index.html" class="floating-back-btn">
+        <i class="fas fa-arrow-left mr-2"></i>
+        返回导航
+    </a>
+    
+    <!-- 加载遮罩 -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-pink-600 mx-auto"></div>
+            <p class="mt-4 text-gray-600">加载数据中...</p>
+        </div>
+    </div>
+
+    <!-- 头部 -->
+    <header class="bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-8">
+            <!-- 返回按钮 -->
+            <a href="index.html" class="back-nav-btn">
+                <i class="fas fa-arrow-left"></i>
+                返回报告导航页面
+            </a>
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">
+                        <i class="fab fa-tiktok mr-3"></i>TikTok电商店铺深度分析报告
+                    </h1>
+                    <p class="text-pink-100 text-lg">分析周期: 2025年12月17日 - 2025年12月23日</p>
+                    <p class="text-pink-200 text-sm mt-1">对比周期: 2025年12月10日 - 2025年12月16日</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-2xl font-bold">$24,792.08</div>
+                    <div class="text-pink-100">总GMV</div>
+                    <div class="text-pink-200 text-sm mt-1">环比下降26.56%</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- 核心结论 -->
+        <section class="mb-12 animate-fade-in-up">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-star mr-3 text-yellow-500"></i>核心结论
+                </h2>
+                <p class="text-gray-700 text-lg">
+                    2025年12月17日-12月23日期间，店铺<span class="mark">延续促销后调整期趋势</span>，总GMV为<strong>$24,792.08</strong>，
+                    环比下降<strong class="text-red-600">26.56%</strong>，订单量<strong>394单</strong>，环比下降<strong class="text-red-600">48.70%</strong>，
+                    客单价（AOV）<strong>$62.92</strong>（提升<strong class="text-green-600">43.15%</strong>）。
+                    <span class="mark">视频渠道继续主导销售</span>，GMV达$15,277.71，占比61.6%，但整体转化效率持续低迷。
+                    直播渠道场次密集但两极分化严重，<span class="mark">商品卡渠道展现最高转化效率</span>（0.75%）。
+                    核心问题在于：<span class="mark">整体转化率极低（仅1.2%）</span>，直播转化能力弱且不稳定。
+                    建议立即聚焦"转化提升与直播重塑"，优化流量分配与内容质量。
+                </p>
+            </div>
+        </section>
+
+        <!-- 店铺概览卡片 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-chart-line mr-3 text-purple-600"></i>核心指标概览与对比
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="metric-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">总GMV</p>
+                            <p class="text-2xl font-bold text-gray-800">$24,792.08</p>
+                            <p class="text-red-600 text-sm mt-1">
+                                <i class="fas fa-arrow-down"></i>环比下降26.56%
+                            </p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">总订单</p>
+                            <p class="text-2xl font-bold text-gray-800">394</p>
+                            <p class="text-red-600 text-sm mt-1">
+                                <i class="fas fa-arrow-down"></i>环比下降48.70%
+                            </p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">平均客单价</p>
+                            <p class="text-2xl font-bold text-gray-800">$62.92</p>
+                            <p class="text-green-600 text-sm mt-1">
+                                <i class="fas fa-arrow-up"></i>环比提升43.15%
+                            </p>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded-full">
+                            <i class="fas fa-receipt text-purple-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-pink-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">视频渠道GMV</p>
+                            <p class="text-2xl font-bold text-gray-800">$15,277.71</p>
+                            <p class="text-red-600 text-sm mt-1">
+                                <i class="fas fa-arrow-down"></i>环比下降39.71%
+                            </p>
+                        </div>
+                        <div class="bg-pink-100 p-3 rounded-full">
+                            <i class="fas fa-video text-pink-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm font-medium">退款率</p>
+                            <p class="text-2xl font-bold text-gray-800">7.53%</p>
+                            <p class="text-red-600 text-sm mt-1">
+                                <i class="fas fa-arrow-up"></i>环比上升1.96pp
+                            </p>
+                        </div>
+                        <div class="bg-red-100 p-3 rounded-full">
+                            <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analysis-content mt-6">
+                <h3 class="font-semibold text-gray-800 mb-2">整体数据总览分析</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-1">
+                    <li>分析周期：2025年12月17日-12月23日（7天），对比周期：2025年12月10日-12月16日</li>
+                    <li><strong>总GMV：$24,792.08</strong>，环比下降26.56%，延续促销后调整期趋势</li>
+                    <li><strong>订单量：394单</strong>，环比下降48.70%，需求收缩明显</li>
+                    <li><strong>客户数：387人</strong>，环比下降49.08%，获客效率大幅下降</li>
+                    <li><strong>客单价（AOV）：$62.92</strong>，环比提升43.15%，高价值产品占比提升</li>
+                    <li><strong>退款率：7.53%</strong>，环比上升1.96个百分点，高风险信号</li>
+                    <li><strong>整体转化率：1.20%</strong>，环比下降0.23pp，极低水平</li>
+                    <li><strong>视频渠道GMV：$15,277.71</strong>，环比下降39.71%，占总GMV的61.6%</li>
+                    <li><strong>直播渠道GMV：$1,754.69</strong>，环比下降40.77%，占总GMV的7.1%</li>
+                    <li><strong>商品卡渠道GMV：$7,759.68</strong>，环比提升42.32%，占总GMV的31.3%</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 每日销售趋势 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-chart-area mr-3 text-blue-600"></i>每日销售趋势分析
+            </h2>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="dailyTrendChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <h4 class="font-semibold text-gray-800 mb-2">峰值表现</h4>
+                    <p class="text-sm text-gray-600">12月23日为GMV峰值，达$5,415.79，与曝光量峰值（231,657）正相关</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <h4 class="font-semibold text-gray-800 mb-2">转化率趋势</h4>
+                    <p class="text-sm text-gray-600">转化率在12月22日达到峰值1.59%，12月23日回落至1.26%，流量质量与转化能力不匹配</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <h4 class="font-semibold text-gray-800 mb-2">整体趋势</h4>
+                    <p class="text-sm text-gray-600">呈现前高后低再回升的趋势，12月17日与12月22-23日为高峰期</p>
+                </div>
+            </div>
+            
+            <div class="analysis-content mt-6">
+                <h3 class="font-semibold text-gray-800 mb-2">每日趋势深度分析</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-1">
+                    <li><strong>日均GMV达$3,541.73</strong>，较上周日均下降26.56%，业务规模持续收缩</li>
+                    <li><strong>客单价保持高位</strong>：维持在$48-$55区间，反映高价值产品组合稳定</li>
+                    <li><strong>视频驱动明显</strong>：12月22-23日GMV高峰主要依赖视频渠道</li>
+                    <li><strong>转化率与流量非正相关</strong>：12月23日曝光量最大时转化率反而回落，说明流量质量或承接能力存在问题</li>
+                    <li><strong>12月20日为明显低谷</strong>：GMV仅$1,230.99，转化率0.77%，需分析具体原因</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 渠道对比分析 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-chart-bar mr-3 text-green-600"></i>渠道表现对比分析
+            </h2>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="channelsComparisonChart" width="400" height="300"></canvas>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-purple-500 mr-2"></div>
+                        <span class="font-medium">视频渠道GMV</span>
+                    </div>
+                    <div class="mt-2">
+                        <div class="text-sm">本期: $15,277.71</div>
+                        <div class="text-sm">上期: $25,344.88</div>
+                        <div class="text-red-600 text-sm font-semibold">下降39.71%</div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">占比61.6% (-13.5pp)</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-pink-500 mr-2"></div>
+                        <span class="font-medium">直播渠道GMV</span>
+                    </div>
+                    <div class="mt-2">
+                        <div class="text-sm">本期: $1,754.69</div>
+                        <div class="text-sm">上期: $2,961.42</div>
+                        <div class="text-red-600 text-sm font-semibold">下降40.77%</div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">占比7.1% (-1.7pp)</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-green-500 mr-2"></div>
+                        <span class="font-medium">商品卡GMV</span>
+                    </div>
+                    <div class="mt-2">
+                        <div class="text-sm">本期: $7,759.68</div>
+                        <div class="text-sm">上期: $5,452.50</div>
+                        <div class="text-green-600 text-sm font-semibold">上升42.32%</div>
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">占比31.3% (+15.2pp)</div>
+                </div>
+            </div>
+            
+            <div class="analysis-content mt-6">
+                <h3 class="font-semibold text-gray-800 mb-2">渠道表现深度分析</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-1">
+                    <li><span class="mark">视频渠道仍为核心支柱</span>，GMV占总GMV的61.6%，但环比下降13.5个百分点，效率下滑明显</li>
+                    <li><strong>直播渠道持续下滑</strong>：直播GMV $1,754.69，环比下降40.77%，占总GMV仅7.1%</li>
+                    <li><strong>商品卡渠道显著增长</strong>：商品卡GMV $7,759.68，环比上升42.32%，占比大幅提升15.2pp</li>
+                    <li><strong>转化效率对比</strong>：商品卡转化率0.75% > 视频转化率≈1.5% > 直播转化率≈0.02%</li>
+                    <li><strong>资源分配问题</strong>：最高效的商品卡渠道未获足够资源倾斜，最低效的直播渠道资源空转严重</li>
+                    <li><strong>渠道战略调整</strong>：应"稳视频、强商品卡、重塑直播"，重新分配资源优先级</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 达人层级分析 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-users mr-3 text-indigo-600"></i>达人层级与贡献分析
+            </h2>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="creatorTierChart" width="400" height="300"></canvas>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                <div class="bg-white rounded-lg p-4 shadow text-center">
+                    <div class="text-2xl font-bold text-green-600">2人</div>
+                    <div class="text-gray-600">头部达人</div>
+                    <div class="text-sm text-gray-500">贡献36.4% GMV</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow text-center">
+                    <div class="text-2xl font-bold text-blue-600">2人</div>
+                    <div class="text-gray-600">中腰部达人</div>
+                    <div class="text-sm text-gray-500">贡献16.8% GMV</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow text-center">
+                    <div class="text-2xl font-bold text-purple-600">10人</div>
+                    <div class="text-gray-600">尾部达人</div>
+                    <div class="text-sm text-gray-500">贡献36.8% GMV</div>
+                </div>
+                <div class="bg-white rounded-lg p-4 shadow text-center">
+                    <div class="text-2xl font-bold text-gray-400">40+人</div>
+                    <div class="text-gray-600">零贡献达人</div>
+                    <div class="text-sm text-gray-500">GMV贡献<$100</div>
+                </div>
+            </div>
+            
+            <div class="analysis-content mt-6">
+                <h3 class="font-semibold text-gray-800 mb-2">达人结构深度分析</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-1">
+                    <li><span class="mark">头部依赖依然显著</span>：lamber_bamber单达人贡献24.3% GMV，抗风险能力弱</li>
+                    <li><strong>中腰部达人潜力未释放</strong>：中腰部达人仅2人贡献明显，大量中长尾达人效能未激活</li>
+                    <li><strong>尾部达人贡献分散</strong>：10位尾部达人合计贡献36.8% GMV，但人均贡献低</li>
+                    <li><strong>大量资源闲置</strong>：40+位达人GMV贡献低于$100，部分为0，存在资源浪费</li>
+                    <li><strong>高退款率问题</strong>：missvida_nicole退款率高达12.1%，需关注产品质量或售后</li>
+                    <li><strong>达人结构优化方向</strong>：应建立"头部稳、中腰壮、尾部活"的健康达人矩阵</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TOP创作者表现分析 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-star mr-3 text-yellow-600"></i>TOP创作者表现与风险分析
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <canvas id="topCreatorsChart" width="400" height="300"></canvas>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">TOP创作者详情与风险指标</h3>
+                    <div class="space-y-4 max-h-96 overflow-y-auto">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div class="flex items-center">
+                                <i class="fas fa-crown text-yellow-500 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">lamber_bamber</p>
+                                    <p class="text-sm text-gray-600">AOV $62.09 • 订单97单 • CTR 4.53%</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">$6,022.40</p>
+                                <p class="text-sm text-gray-600">占比24.3%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div class="flex items-center">
+                                <i class="fas fa-medal text-blue-500 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">asalwaysaleia</p>
+                                    <p class="text-sm text-gray-600">AOV $68.22 • 视频稳定输出 • CTR 4.00%</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">$3,001.66</p>
+                                <p class="text-sm text-gray-600">占比12.1%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-line text-purple-500 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">hanna.robinson2</p>
+                                    <p class="text-sm text-gray-600">CTR高达9.10% • 转化效率高 • 潜力达人</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">$1,087.76</p>
+                                <p class="text-sm text-gray-600">CTR 9.10%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div class="flex items-center">
+                                <i class="fas fa-exclamation-triangle text-orange-500 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">missvida_nicole</p>
+                                    <p class="text-sm text-gray-600">AOV $56.48 • 视频5条 • GMV $1,073.03</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">$1,073.03</p>
+                                <p class="text-sm text-orange-600">退款率12.1%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div class="flex items-center">
+                                <i class="fas fa-users text-gray-500 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-800">其他达人</p>
+                                    <p class="text-sm text-gray-600">40+位达人合计贡献</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">$13,607.23</p>
+                                <p class="text-sm text-gray-600">占比54.9%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                        <h4 class="font-semibold text-yellow-800 mb-2">达人表现亮点与风险</h4>
+                        <p class="text-sm text-yellow-700"><span class="mark">hanna.robinson2 CTR高达9.10%</span>，转化效率高，可重点培养。missvida_nicole退款率偏高(12.1%)，需关注产品质量或售后问题。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analysis-content mt-6">
+                <h3 class="font-semibold text-gray-800 mb-2">达人合作与风险分析</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-1">
+                    <li><span class="mark">头部依赖度高</span>：lamber_bamber单达人贡献24.3% GMV，抗风险能力弱</li>
+                    <li><strong>中腰部潜力未释放</strong>：hanna.robinson2等高CTR达人GMV贡献有限，需流量扶持</li>
+                    <li><strong>退款率风险突出</strong>：missvida_nicole退款率12.1%，可能影响店铺口碑和利润</li>
+                    <li><strong>大量资源闲置</strong>：40+位达人GMV贡献低于$100，部分为0，合作模式需调整</li>
+                    <li><strong>达人结构不均衡</strong>：呈现"头部稳、长尾散"特征，中腰部断层明显</li>
+                    <li><strong>优化方向</strong>：头部维护、中腰部培养、末位淘汰，建立健康达人矩阵</li>
+                </ul>
+            </div>
+        </section>
+
+<!-- 主账号直播表现分析 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-broadcast-tower mr-3 text-red-600"></i>主账号直播表现专项分析
+            </h2>
+            
+            <!-- 直播核心指标 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-6">直播核心指标概览（基于27场直播数据）</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">27场</div>
+                        <div class="text-gray-600">总直播场次</div>
+                        <div class="text-sm text-gray-500 mt-1">日均3.86场</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600">$1,825.42</div>
+                        <div class="text-gray-600">直播总GMV</div>
+                        <div class="text-sm text-gray-500 mt-1">环比下降38.4%</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600">$67.61</div>
+                        <div class="text-gray-600">场均GMV</div>
+                        <div class="text-sm text-gray-500 mt-1">场均时长5.6小时</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-pink-600">24人</div>
+                        <div class="text-gray-600">总客户数</div>
+                        <div class="text-sm text-gray-500 mt-1">场均0.89人</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 直播效率指标 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">直播效率指标</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">场均观看人数</span>
+                                <span class="font-semibold">923人</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-blue-500" style="width: 31%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">平均观看时长</span>
+                                <span class="font-semibold">33.5秒</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 22%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">商品点击率</span>
+                                <span class="font-semibold">4.5%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-purple-500" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">每千次观看GMV</span>
+                                <span class="font-semibold">$73.23</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-pink-500" style="width: 24%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">直播转化分析</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">总销量</span>
+                                <span class="font-semibold">25件</span>
+                            </div>
+                            <div class="text-xs text-gray-500">场均0.93件</div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">总客户数</span>
+                                <span class="font-semibold">24人</span>
+                            </div>
+                            <div class="text-xs text-gray-500">场均0.89人</div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">平均客单价</span>
+                                <span class="font-semibold">$76.06</span>
+                            </div>
+                            <div class="text-xs text-gray-500">显著高于店铺平均AOV</div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-600">点击转化率(CTOR)</span>
+                                <span class="font-semibold">1.42%</span>
+                            </div>
+                            <div class="text-xs text-gray-500">点击到订单转化较低</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 直播效能分级 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">直播效能两极分化分析</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-green-50 rounded-lg">
+                        <div class="text-2xl font-bold text-green-600">6场</div>
+                        <div class="text-gray-600">高效场次</div>
+                        <div class="text-sm text-gray-500 mt-1">GMV > $100，转化率较高</div>
+                        <div class="mt-2 text-xs">代表: 12/22 20:01 (GMV $234.96)</div>
+                    </div>
+                    <div class="p-4 bg-yellow-50 rounded-lg">
+                        <div class="text-2xl font-bold text-yellow-600">12场</div>
+                        <div class="text-gray-600">中效场次</div>
+                        <div class="text-sm text-gray-500 mt-1">GMV $10-$100，有一定转化</div>
+                        <div class="mt-2 text-xs">代表: 12/17 04:02 (GMV $63.99)</div>
+                    </div>
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <div class="text-2xl font-bold text-red-600">9场</div>
+                        <div class="text-gray-600">低效场次</div>
+                        <div class="text-sm text-gray-500 mt-1">GMV = $0，无转化</div>
+                        <div class="mt-2 text-xs">代表: 12/17 07:45 (GMV $0)</div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
+                    <h4 class="font-semibold text-red-800 mb-1">直播效能严重分化</h4>
+                    <p class="text-sm text-red-700">33%的直播场次（9场）GMV为0，存在严重资源空转问题。高效场次与低效场次表现差异巨大，缺乏标准化流程。</p>
+                </div>
+            </div>
+            
+            <!-- TOP10直播场次 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">TOP10直播场次表现（按GMV排序）</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">直播时间</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GMV</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">观看人数</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GMV/千次观看</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">销量</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">客单价</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">转化率</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/22 20:01</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$234.96</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,583人</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$148.43</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">4件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$58.74</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">3.36%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/23 07:39</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$179.97</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">888人</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$202.69</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">3件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$59.99</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">4.08%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/19 09:00</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$177.62</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,066人</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$166.62</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">2件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$88.81</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">4.00%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/19 17:14</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$170.97</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,431人</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$119.47</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">3件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$56.99</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1.58%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/22 04:03</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$168.97</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,680人</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$100.58</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">3件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$56.32</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1.46%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/22 07:30</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$164.97</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,247人</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$132.29</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">3件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$54.99</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">4.17%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/21 04:06</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$77.91</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,352人</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$57.63</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$77.91</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1.72%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/17 04:02</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$63.99</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,710人</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$37.42</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$63.99</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">0.95%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/23 16:04</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$53.99</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">935人</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$57.74</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$53.99</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1.19%</td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-900">12/19 04:00</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">$96.73</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1,603人</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$60.34</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">2件</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">$48.37</td>
+                                <td class="px-4 py-3 text-sm text-gray-900">1.30%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 text-sm text-gray-500">
+                    <p><strong>数据洞察：</strong>GMV/千次观看波动极大（$37.42 - $202.69），12月23日07:39场次效率最高，12月22日20:01场次GMV最高。</p>
+                </div>
+            </div>
+            
+            <!-- 优秀案例拆解 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">优秀案例拆解：12月22日高效场次</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-green-50 rounded-lg">
+                        <h4 class="font-semibold text-green-800 mb-2">关键数据</h4>
+                        <ul class="text-green-700 space-y-1">
+                            <li>• 时长: 4小时</li>
+                            <li>• GMV: $234.96</li>
+                            <li>• 商品曝光: 2,578次</li>
+                            <li>• 商品点击: 119次</li>
+                            <li>• 转化率: 3.36%（全场最高）</li>
+                            <li>• 销量: 4件</li>
+                            <li>• 客单价: $58.74</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">成功关键动作</h4>
+                        <ul class="text-blue-700 space-y-1">
+                            <li>1. 明确的产品曝光与点击（Hair Steamer）</li>
+                            <li>2. 相对较高的互动（评论16，分享1）</li>
+                            <li>3. 平均观看时长85秒，留存尚可</li>
+                            <li>4. 聚焦单品深度讲解</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 直播问题与优化建议 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">直播核心问题诊断</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-red-50 rounded-lg">
+                            <h4 class="font-semibold text-red-800 mb-1">33%场次零转化</h4>
+                            <p class="text-sm text-red-700">27场直播中有9场GMV为0，存在严重资源空转问题</p>
+                        </div>
+                        <div class="p-3 bg-red-50 rounded-lg">
+                            <h4 class="font-semibold text-red-800 mb-1">场均产出效率低</h4>
+                            <p class="text-sm text-red-700">场均GMV仅$67.61，场均客户数不足1人，投入产出比不合理</p>
+                        </div>
+                        <div class="p-3 bg-yellow-50 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800 mb-1">内容同质化严重</h4>
+                            <p class="text-sm text-yellow-700">多数场次标题均为"Holiday Haul LIVE"，无核心爆品聚焦</p>
+                        </div>
+                        <div class="p-3 bg-yellow-50 rounded-lg">
+                            <h4 class="font-semibold text-yellow-800 mb-1">效能两极分化严重</h4>
+                            <p class="text-sm text-yellow-700">6场高效场次贡献大部分直播GMV，9场低效场次GMV为0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">直播优化建议</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-green-50 rounded-lg">
+                            <h4 class="font-semibold text-green-800 mb-1">设计专属钩子产品</h4>
+                            <p class="text-sm text-green-700">每场直播设计专属钩子产品和直播间独家优惠券，提升转化动机</p>
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-lg">
+                            <h4 class="font-semibold text-purple-800 mb-1">加强预热引流</h4>
+                            <p class="text-sm text-purple-700">直播前通过视频预告、社群通知等方式预热，提升开播流量</p>
+                        </div>
+                        <div class="p-3 bg-indigo-50 rounded-lg">
+                            <h4 class="font-semibold text-indigo-800 mb-1">建立直播SOP</h4>
+                            <p class="text-sm text-indigo-700">建立"预热-开场-讲解-逼单-收尾"标准化流程，减少表现波动</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analysis-content mt-6">
+                <h3 class="font-semibold text-gray-800 mb-2">主账号直播表现深度分析</h3>
+                <ul class="text-gray-700 list-disc pl-5 space-y-1">
+                    <li><strong>直播规模大但效率低</strong>：完成27场直播，总GMV $1,825.42，场均GMV仅$67.61</li>
+                    <li><strong>转化效率两极分化</strong>：33%场次GMV为0，而高效场次转化率可达4%，表现差异巨大</li>
+                    <li><strong>客单价优势明显</strong>：直播渠道平均客单价$76.06，显著高于店铺平均$62.92</li>
+                    <li><strong>流量规模有限</strong>：场均观看仅923次，缺乏预热和流量引入机制</li>
+                    <li><strong>内容策划薄弱</strong>：多数场次缺乏明确主题和爆品聚焦，标题同质化严重</li>
+                    <li><strong>时间分配不合理</strong>：部分场次直播时长过长（最长达12小时），但产出效率低</li>
+                    <li><strong>优化方向</strong>：减少直播频次，建立标准化SOP，加强预热引流，聚焦爆品策略</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 优化建议与行动计划 -->
+        <section class="mb-12 animate-fade-in-up">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-lightbulb mr-3 text-yellow-500"></i>优化建议与行动计划升级版
+            </h2>
+            
+            <!-- 立即执行 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center text-red-600">
+                    <i class="fas fa-bolt mr-2"></i>立即执行（1周内）：转化提升与直播急救
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">优化商品落地页与支付流程</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 在详情页增加视频高光片段、用户好评截图、信任标识</li>
+                            <li>• 设置限时优惠（倒计时）和低门槛包邮策略</li>
+                            <li>• 简化支付步骤，确保支付渠道畅通</li>
+                            <li>• 减少加购后流失，提升支付转化率</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">直播渠道紧急整改</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 明确直播重点，减少无意义的直播内容</li>
+                            <li>• 为每场直播设计专属钩子产品和直播间独家优惠券</li>
+                            <li>• 建立直播前中后标准化流程</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">商品卡流量加持</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 立即为核心产品的商品卡购买信息流广告</li>
+                            <li>• 预算向商品卡倾斜，提升最高效渠道的曝光</li>
+                            <li>• 在所有视频评论区置顶商品卡链接</li>
+                            <li>• 实现内容向高转化渠道引流</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 中期策略 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center text-blue-600">
+                    <i class="fas fa-chart-line mr-2"></i>中期策略（1个月内）：体系化建设
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">达人矩阵精细化运营</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 头部维护：与lamber_bamber, asalwaysaleia建立更深合作</li>
+                            <li>• 中腰部培养：为CTR高但GMV低的达人提供爆款脚本和流量测试</li>
+                            <li>• 末位淘汰：建立清退机制，对连续无产出的达人停止合作</li>
+                            <li>• 建立健康达人矩阵，降低头部依赖风险</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">直播SOP标准化</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 建立"预热-开场-讲解-逼单-收尾"的标准流程</li>
+                            <li>• 每场直播必须聚焦1-2个核心品，配备专属话术与促销</li>
+                            <li>• 直播后24小时内进行数据复盘与高光剪辑二次传播</li>
+                            <li>• 减少表现波动，稳定GMV产出</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">内容模板化生产</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 开发3-4个高转化视频模板（痛点解决、效果对比、省钱计算）</li>
+                            <li>• 为达人提供"内容工具包"（素材、文案库、BGM）</li>
+                            <li>• 提升内容生产效率与质量</li>
+                            <li>• 稳定视频渠道产出与转化</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 长期发展 -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center text-green-600">
+                    <i class="fas fa-rocket mr-2"></i>长期发展（1‑3个月）：数据驱动与创新
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">搭建数据监控看板</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 实时监控"曝光-点击-加购-下单"全链路转化数据</li>
+                            <li>• 建立达人效能评估模型（GMV、CTR、退款率、内容质量综合打分）</li>
+                            <li>• 风险预警机制：转化率连续3日低于1%等阈值预警</li>
+                            <li>• 数据驱动决策，提升运营效率</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">探索混合合作模式</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 对核心达人试点"基础佣金+增量分成"模式，激发积极性</li>
+                            <li>• 探索"产品寄样+ CPS"模式，降低与新达人合作的门槛与风险</li>
+                            <li>• 建立更灵活高效的达人合作机制</li>
+                            <li>• 提升达人矩阵的健康度与产出效率</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">拓展产品矩阵</h4>
+                        <ul class="text-gray-700 space-y-1 text-sm">
+                            <li>• 围绕Hair Steamer开发搭配品（护发精油、发帽）</li>
+                            <li>• 测试关联品类（家用美容仪），寻找第二增长曲线</li>
+                            <li>• 降低单一产品依赖，形成产品矩阵</li>
+                            <li>• 提升业务稳定性与抗风险能力</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-4">
+                <a href="index.html" class="inline-flex items-center text-gray-300 hover:text-white transition-colors">
+                    <i class="fas fa-home mr-2"></i>
+                    返回报告导航主页
+                </a>
+            </div>
+            <p class="text-gray-400">© 2025 TikTok电商店铺深度分析报告 | 数据分析周期：2025年12月17日 - 2025年12月23日</p>
+            <p class="text-gray-500 text-sm mt-2">对比周期：2025年12月10日 - 2025年12月16日 | 生成时间: 2025-12-25 | 报告员：Nikilas</p>
+            <p class="text-gray-500 text-sm mt-2">报告总结：本期店铺正处于<span class="text-yellow-300">促销后调整期向精细化运营期转型</span>的关键阶段。</p>
+            <p class="text-gray-500 text-sm mt-1">建议执行<span class="text-yellow-300">"稳视频、强商品卡、重塑直播"</span>策略：保障视频核心渠道产能，强化商品卡流量供给与转化效率，系统性重塑直播渠道。</p>
+        </div>
+    </footer>
+
+    <script>
+        // 隐藏加载遮罩
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }, 1000);
+            
+            // 初始化图表
+            initCharts();
+        });
+
+        // 初始化所有图表
+        function initCharts() {
+            // 每日趋势图
+            const dailyCtx = document.getElementById('dailyTrendChart').getContext('2d');
+            new Chart(dailyCtx, {
+                type: 'line',
+                data: {
+                    labels: dailyTrendData.dates,
+                    datasets: [{
+                        label: '总GMV',
+                        data: dailyTrendData.gmv,
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        yAxisID: 'y'
+                    }, {
+                        label: '订单数',
+                        data: dailyTrendData.orders,
+                        borderColor: 'rgb(139, 92, 246)',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4,
+                        fill: false,
+                        borderDash: [5, 5],
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '每日GMV和订单趋势'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'GMV ($)'
+                            }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: '订单数'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'nearest'
+                    }
+                }
+            });
+
+            // 渠道对比图
+            const channelsComparisonCtx = document.getElementById('channelsComparisonChart').getContext('2d');
+            new Chart(channelsComparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: channelsComparisonData.labels,
+                    datasets: [{
+                        label: '本期',
+                        data: channelsComparisonData.current_period,
+                        backgroundColor: channelsComparisonData.colors,
+                        borderColor: channelsComparisonData.colors,
+                        borderWidth: 1
+                    }, {
+                        label: '上期',
+                        data: channelsComparisonData.previous_period,
+                        backgroundColor: channelsComparisonData.colors.map(color => color.replace(')', ', 0.4)').replace('rgb', 'rgba')),
+                        borderColor: channelsComparisonData.colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: '渠道GMV环比对比'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const index = context.dataIndex;
+                                    return `增长率: ${channelsComparisonData.growth_rate[index]}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'GMV ($)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 达人层级图
+            const creatorTierCtx = document.getElementById('creatorTierChart').getContext('2d');
+            new Chart(creatorTierCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: creatorTierData.labels,
+                    datasets: [{
+                        data: creatorTierData.gmv_share,
+                        backgroundColor: creatorTierData.colors,
+                        borderColor: creatorTierData.colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: '达人层级GMV贡献分布'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const count = creatorTierData.creator_count[context.dataIndex] || 0;
+                                    return `${label}: ${value}% (${count}人)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // TOP创作者表现图
+            const topCreatorsCtx = document.getElementById('topCreatorsChart').getContext('2d');
+            new Chart(topCreatorsCtx, {
+                type: 'bar',
+                data: {
+                    labels: topCreatorsData.labels,
+                    datasets: [{
+                        label: 'GMV ($)',
+                        data: topCreatorsData.gmv,
+                        backgroundColor: topCreatorsData.colors,
+                        borderColor: topCreatorsData.colors,
+                        borderWidth: 1,
+                        yAxisID: 'y'
+                    }, {
+                        label: '退款率 (%)',
+                        data: topCreatorsData.refund_rate,
+                        type: 'line',
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 3,
+                        pointRadius: 6,
+                        pointBackgroundColor: 'rgb(239, 68, 68)',
+                        fill: false,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'TOP创作者GMV与退款率表现'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'GMV ($)'
+                            }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: '退款率 (%)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            max: 15
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
